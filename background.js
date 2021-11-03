@@ -142,7 +142,7 @@ chrome.browserAction.onClicked.addListener(function () {
             $("[class='log-entry log-entry-first-error-popup']").css('border-radius', '16px');
             $("[class='log-entry-content']").css({'background-color': '#f1f1f1e6'});
             clearInterval(checkExist);
-          } else if ( new Date().getTime() - start > 5000 ) {alert('out'); clearInterval(checkExist);}
+          } else if ( new Date().getTime() - start > 5000 ) {clearInterval(checkExist);}
         }, 50);
       }
       // add spin

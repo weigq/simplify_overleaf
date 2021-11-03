@@ -1,7 +1,8 @@
 {
   "name": "Simplify Overleaf",
   "description": "Simplify your overleaf to focus on editing!",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "homepage_url": "https://github.com/weigq/simplify_overleaf",
   "manifest_version": 2,
   "background": {
     "scripts": [
