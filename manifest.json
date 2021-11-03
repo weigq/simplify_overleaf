@@ -1,0 +1,28 @@
+{
+  "name": "Simplify Overleaf",
+  "description": "Simplify your overleaf to focus on editing!",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "tabs",
+    "activeTab"
+  ],
+  "browser_action": {
+  },
+  "icons": {
+    "128": "/logo-128.png"
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "js": ["/thirdparty/jquery.min.js", "/thirdparty/ResizeSensor.js", "/thirdparty/ElementQueries.js"],
+      "matches": ["http://*/*", "https://*/*", "file://*/*"]
+    }
+  ],
+  "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'"
+}
