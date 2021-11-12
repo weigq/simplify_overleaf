@@ -81,17 +81,17 @@ chrome.browserAction.onClicked.addListener(function () {
 
       // =================== right navigation bar ===========================
       //
-      let rightToolBar = $(".toolbar").filter(".toolbar-pdf");
+      let rightToolBar = $("#toolbar-preview");
       rightToolBar.css('opacity', '0');
       // add one clickable button
       $("<a id='nav-right-trigger' role='button' class='btn btn-full-height' style='cursor:pointer;'><i id='right-dropdown' class='fas fa-chevron-circle-down'></i></a>").insertAfter(".online-users");
       $("#right-dropdown").css({'font-family': 'FontAwesome', 'font-style': 'normal'})
       // click to display
-      $("#nav-right-trigger").click(clickRightBtn);
+      $("#nav-right-trigger").click(clickMy);
       // remove origianl zoom btns
       $(".pdfjs-controls").css({'left': '16px', 'top': '46px'});
 
-      function clickRightBtn() {
+      function clickMy() {
         rightToolBar.css({
           'height': '36px',
           'position': 'absolute',
@@ -102,21 +102,24 @@ chrome.browserAction.onClicked.addListener(function () {
           'border-radius': '2em',
           'z-index': '1000',
         });
+        // first two buttons
+        $("[class='toolbar-pdf-left']").css('flex', '0 0 auto');
+        // last two buttons
+        $("[class='toolbar-pdf-right']").css({'flex': '0 0 auto', 'margin-left': '1em'});
         // first button group [re-complie]
-        $('.btn-group').filter('.btn-recompile-group').css({
+        $("[class='btn-recompile-group toolbar-item dropdown btn-group']").css({
           'border-radius': '1000px', 'top': '15%', 'height': '70%', 'margin': '0 .4em' });
         // button icon
-        let firstBtn = $("[class='btn btn-recompile']");
-        firstBtn.css({'padding': '0 1em'});
+        let firstBtn = $("[class='btn btn-recompile']").css({'padding': '0 1em'});
         firstBtn.find("span").remove();  // remove span text
         // dropdown
-        $("[class='btn btn-recompile dropdown-toggle']").css({'padding': '0 .5em'});
+        $("[class='btn btn-recompile dropdown-toggle btn btn-success']").css({'padding': '0 .5em'});
         // second button
-        $('.log-btn').css('margin-left', '.5em');
+        $("[class='btn btn-xs btn-info']").find("span").remove();
         // third button
-        $(".ng-scope").css('margin-lrft', '1em');
+        // $("#logs-toggle").find("span").remove();
         // last button
-        $('.toolbar-right').css('margin-left', '1em');
+        $("[class='toolbar-pdf-expand-btn toolbar-item']").css('margin-left', '1em');
 
         // rightToolBar.toggle();
         if (rightToolBar.css('opacity') === '0') {
@@ -136,8 +139,8 @@ chrome.browserAction.onClicked.addListener(function () {
       function errorPage() {
         let start = new Date().getTime();
         let checkExist = setInterval(function() {
-          if ( $("[class='log-btn']").find('span').attr('class').includes('label-danger') ) {
-            if (rightToolBar.css('opacity') === '0') { clickRightBtn() }
+          if ($("#logs-toggle").children()[1].innerHTML.includes('error')) {
+            if (rightToolBar.css('opacity') === '0') { clickMy() }
             $("[class='first-error-popup']").css({'border-radius': '16px', 'top': '65px', 'right': '', 'left': '18px', 'background-color': '#c9453e38', 'max-width': '425px'});
             $("[class='log-entry log-entry-first-error-popup']").css('border-radius', '16px');
             $("[class='log-entry-content']").css({'background-color': '#f1f1f1e6'});
@@ -160,7 +163,7 @@ chrome.browserAction.onClicked.addListener(function () {
         mutationsList.forEach(mutation => {
           if (mutation.attributeName === 'class') {
             if ( compileIcon.children().attr('class') === 'fa fa-refresh fa-spin' ) { syncIcon.css({'z-index': '1000', 'opacity': '1'}) }
-            else { syncIcon.css({'z-index': '1', 'opacity': '0'}); }
+            else { syncIcon.css({'z-index': '1', 'opacity': '0'}); errorPage(); }
           }
         })
       }
@@ -169,9 +172,9 @@ chrome.browserAction.onClicked.addListener(function () {
       mutationObserver.observe(document.getElementsByClassName('btn btn-recompile')[0].children[0], { attributes: true })
 
       // last: check error
-      if ( $("[class='log-btn']").find('span').attr('class').includes('label-danger') ) {
-        clickRightBtn();
-        // errorPage();
+      if ($("#logs-toggle").children()[1].innerHTML.includes('error')) {
+        clickMy();
+        errorPage();
       }
     }  // enf of simplifyFunc
 
@@ -199,8 +202,7 @@ chrome.browserAction.onClicked.addListener(function () {
         }, 100);
       }
     };
-    // waitForFullPage(() => { simplifyFunc() })
-    simplifyFunc();
+    waitForFullPage(() => { simplifyFunc() })
 
   }  // end of mainFunc
 });

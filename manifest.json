@@ -1,7 +1,7 @@
 {
   "name": "Simplify Overleaf",
   "description": "Simplify your overleaf to focus on editing!",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "homepage_url": "https://github.com/weigq/simplify_overleaf",
   "manifest_version": 2,
   "background": {
@@ -10,7 +10,6 @@
     ]
   },
   "permissions": [
-    "tabs",
     "activeTab"
   ],
   "browser_action": {
@@ -22,7 +21,7 @@
   "content_scripts": [
     {
       "js": ["/thirdparty/jquery.min.js", "/thirdparty/ResizeSensor.js", "/thirdparty/ElementQueries.js"],
-      "matches": ["http://*/*", "https://*/*", "file://*/*"]
+      "matches": ["http://*/*", "https://*/*"]
     }
   ],
   "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'"
